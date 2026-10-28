@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f6f4">
+  <meta name="description" content="BoliDesk turns Indian-language customer voice notes into reviewed, ready-to-route support case briefs.">
+  <title>BoliDesk — Voice to case</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="rail" aria-label="Application navigation">
+      <a class="brand-mark" href="#top" aria-label="BoliDesk home"><span class="brand-glyph">b<span>·</span></span></a>
+      <div class="rail-rule"></div>
+      <a class="rail-item active" href="#workspace" aria-label="Call review"><span class="rail-icon wave-icon"><i></i><i></i><i></i><i></i><i></i></span></a>
+      <a class="rail-item" href="#how-it-works" aria-label="How it works"><span class="rail-icon">↗</span></a>
+      <div class="rail-spacer"></div>
+      <div class="rail-avatar" aria-label="Local pilot workspace">BD</div>
+    </aside>
+
+    <main id="top" class="main-content">
+      <header class="topbar">
+        <div class="crumb"><span class="crumb-dot"></span> SUPPORT OPERATIONS <span class="crumb-slash">/</span> VOICE REVIEW</div>
+        <div class="topbar-right">
+          <span class="pilot-label">PILOT WORKSPACE</span>
+          <span id="connection-badge" class="connection-badge"><span class="connection-dot"></span><span id="connection-text">Checking API</span></span>
+        </div>
+      </header>
+
+      <section class="intro" id="workspace">
+        <div class="intro-copy">
+          <div class="eyebrow"><span class="eyebrow-line"></span> MULTILINGUAL CUSTOMER SUPPORT</div>
+          <h1>Hear the issue.<br><span>Know what to do next.</span></h1>
+          <p class="intro-text">Turn a short customer call into a clear case brief your team can review, route, and follow up on.</p>
+        </div>
+        <div class="intro-note">
+          <div class="note-icon">↳</div>
+          <div><strong>Made for the first mile</strong><p>Regional-language calls become readable support context, with a human still in control.</p></div>
+        </div>
+      </section>
+
+      <section class="workspace-grid" aria-label="Call review workspace">
+        <div class="primary-column">
+          <section class="panel upload-panel" aria-labelledby="upload-heading">
+            <div class="panel-heading">
+              <div>
+                <div class="section-kicker">01 <span>·</span> INTAKE</div>
+                <h2 id="upload-heading">Add a voice note</h2>
+              </div>
+              <span class="duration-tag">UP TO 60 SEC</span>
+            </div>
+
+            <label class="drop-zone" id="drop-zone" for="audio-file">
+              <input id="audio-file" type="file" accept=".wav,.mp3,.ogg,.flac,.aac,.m4a,audio/*">
+              <span class="upload-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M4 15.5v3A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5v-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="drop-title" id="file-title">Drop an audio clip here</span>
+              <span class="drop-subtitle" id="file-subtitle">or <span class="browse-link">browse files</span> · WAV, MP3, M4A and more</span>
+            </label>
+
+            <div class="form-row">
+              <label class="field-label" for="language-select">CALL LANGUAGE</label>
+              <div class="select-wrap">
+                <select id="language-select">
+                  <option value="hi-IN">Hindi · हिन्दी</option>
+                  <option value="en-IN">English · India</option>
+                  <option value="ta-IN">Tamil · தமிழ்</option>
+                  <option value="te-IN">Telugu · తెలుగు</option>
+                  <option value="kn-IN">Kannada · ಕನ್ನಡ</option>
+                  <option value="mr-IN">Marathi · मराठी</option>
+                  <option value="bn-IN">Bengali · বাংলা</option>
+                  <option value="gu-IN">Gujarati · ગુજરાતી</option>
+                  <option value="ml-IN">Malayalam · മലയാളം</option>
+                  <option value="pa-IN">Punjabi · ਪੰਜਾਬੀ</option>
+                </select>
+                <span class="select-chevron">⌄</span>
+              </div>
+              <button id="transcribe-button" class="button button-primary" type="button" disabled><span class="button-label">Transcribe call</span><span class="button-arrow">→</span></button>
+            </div>
+            <div class="upload-footnote"><span class="shield-icon">◇</span> Audio is sent to Gnani Prisma for transcription. This demo does not save calls.</div>
+            <div id="upload-error" class="inline-error" role="alert" hidden></div>
+          </section>
+
+          <section class="panel transcript-panel" aria-labelledby="transcript-heading">
+            <div class="panel-heading transcript-heading-row">
+              <div>
+                <div class="section-kicker">02 <span>·</span> TRANSCRIPT</div>
+                <h2 id="transcript-heading">Call notes</h2>
+              </div>
+              <div class="transcript-actions">
+                <span id="transcript-source" class="source-label">WAITING FOR AUDIO</span>
+                <button id="listen-button" class="icon-button" type="button" title="Read transcript aloud" aria-label="Read transcript aloud" disabled><span class="speaker-icon">◖))</span></button>
+                <button id="copy-button" class="icon-button" type="button" title="Copy transcript" aria-label="Copy transcript" disabled><span class="copy-icon">▢</span></button>
+              </div>
+            </div>
+            <textarea id="transcript" class="transcript-box" maxlength="12000" placeholder="Your transcript will appear here. You can edit it before creating the case brief." aria-label="Editable call transcript"></textarea>
+            <div class="transcript-bottom"><span id="transcript-count">0 characters</span><button id="analyze-button" class="text-button" type="button" disabled>Update case brief <span>→</span></button></div>
+            <audio id="audio-playback" class="audio-playback" controls hidden></audio>
+          </section>
+        </div>
+
+        <aside class="secondary-column">
+          <section class="panel case-panel" aria-labelledby="case-heading">
+            <div class="panel-heading case-heading-row">
+              <div>
+                <div class="section-kicker">03 <span>·</span> CASE BRIEF</div>
+                <h2 id="case-heading">Ready for review</h2>
+              </div>
+              <button id="export-button" class="export-button" type="button" disabled><span>↓</span> EXPORT</button>
+            </div>
+            <div id="case-empty" class="case-empty">
+              <div class="empty-orbit"><span class="empty-center">✳</span><i></i><i></i><i></i></div>
+              <p>Your next step starts with a call.</p>
+              <span>Transcribe audio or load a synthetic example to see the workflow.</span>
+            </div>
+            <div id="case-results" class="case-results" hidden>
+              <div class="case-title-row"><span id="case-category" class="category-pill">GENERAL SUPPORT</span><span id="case-priority" class="priority-dot"><i></i> STANDARD</span></div>
+              <p id="case-summary" class="case-summary"></p>
+              <div class="signal-row"><span class="signal-label">TONE CUE</span><span id="case-tone" class="tone-value"></span></div>
+              <div class="action-divider"><span>Suggested next steps</span><span class="action-count">03</span></div>
+              <ol id="action-list" class="action-list"></ol>
+              <div class="review-note"><span>i</span><span id="review-note-text">Suggested routing only. A person should confirm before acting.</span></div>
+            </div>
+          </section>
+
+          <section class="demo-card">
+            <div class="demo-card-top"><span class="demo-asterisk">✳</span><span class="section-kicker">QUICK START</span><span class="demo-tag">SYNTHETIC DATA</span></div>
+            <h3>See a case take shape</h3>
+            <p>Try a made-up customer call about a duplicate payment. No audio or personal data involved.</p>
+            <button id="demo-button" class="demo-button" type="button">Load sample call <span>↗</span></button>
+          </section>
+
+          <section id="how-it-works" class="model-note">
+            <div class="model-note-header"><span class="model-spark">✳</span> THE MODEL FLOW</div>
+            <div class="model-step"><span class="step-number">01</span><div><strong>Prisma listens</strong><small>Speech → text, with the caller's language preserved.</small></div></div>
+            <div class="model-step"><span class="step-number">02</span><div><strong>BoliDesk organizes</strong><small>Local rules suggest a queue and follow-up steps.</small></div></div>
+            <div class="model-step"><span class="step-number">03</span><div><strong>Timbre reads back</strong><small>Optional spoken playback of the transcript.</small></div></div>
+            <div class="model-note-foot">Suggestions are aids for a support agent, not automated decisions.</div>
+          </section>
+        </aside>
+      </section>
+
+      <footer class="page-footer"><span>BOLIDESK <span class="footer-dot">·</span> BUILT WITH GNANI AI</span><span>Prisma v2.5 <i></i> Timbre v2.5 beta</span></footer>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
